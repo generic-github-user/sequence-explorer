@@ -24,3 +24,8 @@ fig.clear()
 default_symbols = list(string.ascii_uppercase[:5])
 def lstr(x):
     return ''.join(x)
+
+class Rule:
+    def __init__(self, conditions=[], symbols=default_symbols):
+        self.conditions = conditions
+        self.symbols = symbols
