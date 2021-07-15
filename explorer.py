@@ -47,3 +47,35 @@ class Rule:
             possible = list(filter(lambda s: all([c(lstr(seq)+s) for c in self.conditions]), self.symbols))
             seq += random.choice(possible)
         return seq
+
+fig, ax = plt.subplots()
+R = Rule(
+    [lambda p: p[-1]!=p[-2]]
+)
+test = R.sample()
+test = np.expand_dims([R.symbols.index(c) for c in test], 0)
+im = ax.imshow(test, cmap='inferno')
+
+indices = list(range(1, 11))
+ax.set_xticks(np.arange(len(indices)))
+# ax.set_yticks(np.arange(len()))
+ax.set_xticklabels(indices)
+# ax.set_yticklabels()
+
+plt.setp(ax.get_xticklabels(), rotation=0, ha="right",
+         rotation_mode="anchor")
+
+for i in range(len([0])):
+    for j in range(len(farmers)):
+        text = ax.text(j, i, test[i, j], ha="center", va="center", color="w")
+
+ax.set_title('')
+# fig.tight_layout()
+plt.show()
+
+
+# In[ ]:
+
+
+
+
