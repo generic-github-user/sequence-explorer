@@ -12,13 +12,13 @@ import string
 import random
 
 
-# In[46]:
+# In[60]:
 
 
 fig.clear()
 
 
-# In[51]:
+# In[61]:
 
 
 default_symbols = list(string.ascii_uppercase[:5])
@@ -27,14 +27,21 @@ def lstr(x):
 
 class Sequence:
     def __init__(self, terms=None, rule=None):
-        if not terms:
-            self.terms = []
+        if terms is None:
+            terms = []
         self.terms = terms
         self.rule = rule
         
     def __iadd__(self, a):
         self.terms.append(a)
+        return self
+        
+    def __str__(self):
+        return ''.join(self.terms)
 
+    def __iter__(self):
+        return iter(self.terms)
+    
 class Rule:
     def __init__(self, conditions=[], symbols=default_symbols):
         self.conditions = conditions
