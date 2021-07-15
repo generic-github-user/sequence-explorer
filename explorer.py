@@ -25,7 +25,7 @@ plt.close(fig)
 
 plt.close('all')
 
-default_symbols = list(string.ascii_uppercase[:5])
+default_symbols = list(string.ascii_uppercase[:10])
 def lstr(x):
     return ''.join(x)
 
@@ -36,10 +36,13 @@ class Sequence:
         self.terms = terms
         self.rule = rule
     
-    def display(self):
+    def display(self, a=None):
         vals = np.expand_dims([self.rule.symbols.index(c) for c in self], 0)
         if vals.size > 30:
-            w = math.floor(vals.size ** (1/2))
+            if a:
+                w = a
+            else:
+                w = math.floor(vals.size ** (1/2))
             q = vals.size / w
             q = math.ceil(q)
             vals = np.pad(vals, ((0, 0), (0, q*w-vals.size),), mode='constant')
@@ -96,8 +99,8 @@ class SequenceSet:
     def __init__(self, members):
         self.members = members
     
-    def display(self):
-        self.members[0].display()
+    def display(self, *args, **kwargs):
+        self.members[0].display(*args, **kwargs)
     
     def print(self):
         print(self)
@@ -133,6 +136,7 @@ R = Rule([lambda p: p[-1]!=p[-2]])
 # Sequence of symbols that cannot occur more than twice in a span of 10 tokens
 R = Rule([lambda p: p[-28:-1].count(p[-1])<=2])
 R.sample(50, 5).print()
+R.sample(1000).display(29)
 
 
 # In[ ]:
