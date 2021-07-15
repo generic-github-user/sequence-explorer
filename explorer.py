@@ -19,7 +19,7 @@ fig.clear()
 plt.close(fig)
 
 
-# In[102]:
+# In[256]:
 
 
 plt.close('all')
@@ -64,12 +64,15 @@ class Sequence:
         ax.set_frame_on(False)
         plt.show()
     
+    def print(self):
+        print(self)
+    
     def __iadd__(self, a):
         self.terms.append(a)
         return self
         
     def __str__(self):
-        return ''.join(self.terms)
+        return ''.join(map(str, self.terms))
 
     def __iter__(self):
         return iter(self.terms)
@@ -102,13 +105,17 @@ class Rule:
         self.conditions = conditions
         self.symbols = symbols
     
-    def sample(self, length=10):
-        seq = Sequence(rule=self)
-        seq += random.choice(self.symbols)
-        for i in range(length-1):
-            possible = list(filter(lambda s: all([c(str(seq)+s) for c in self.conditions]), self.symbols))
-            seq += random.choice(possible)
-        return seq
+    def sample(self, length=10, n=1):
+        seq_set = SequenceSet([])
+        for m in range(n):
+            seq = Sequence(rule=self)
+            seq += random.choice(self.symbols)
+            for i in range(length-1):
+                possible = list(filter(lambda s: all([c(str(seq)+s) for c in self.conditions]), self.symbols))
+                if possible:
+                    seq += random.choice(possible)
+            seq_set += seq
+        return seq_set
 
 # Sequence of non-consecutive identical/repeated symbols
 R = Rule([lambda p: p[-1]!=p[-2]])
