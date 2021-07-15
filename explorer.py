@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[11]:
+# In[197]:
 
 
 get_ipython().run_line_magic('matplotlib', 'widget')
@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import string
 import random
+import math
 
 
 # In[69]:
@@ -37,10 +38,17 @@ class Sequence:
     
     def display(self):
         vals = np.expand_dims([self.rule.symbols.index(c) for c in self], 0)
+        if vals.size > 30:
+            w = math.floor(vals.size ** (1/2))
+            q = vals.size / w
+            q = math.ceil(q)
+            vals = np.pad(vals, ((0, 0), (0, q*w-vals.size),), mode='constant')
+            vals = vals.reshape([q, w])
         fig, ax = plt.subplots()
         im = ax.imshow(vals, cmap='cool')
 
-        num_terms = len(self)
+#         num_terms = len(self)
+        num_terms = vals.shape[-1]
         indices = list(range(1, num_terms+1))
         ax.set_xticks(np.arange(num_terms))
 #         ax.set_xticks([])
@@ -51,11 +59,12 @@ class Sequence:
         plt.setp(ax.get_xticklabels(), rotation=0, ha="right",
                  rotation_mode="anchor")
 
-        col = 'black'
-        for i in range(len([0])):
-            for j in range(num_terms):
-                box = dict(boxstyle="round", ec=col, fc=col, alpha=0.5)
-                text = ax.text(j, i, self.terms[j], ha="center", va="center", color="w", bbox=box)
+        if vals.size <= 30:
+            col = 'black'
+            for i in range(len([0])):
+                for j in range(num_terms):
+                    box = dict(boxstyle="round", ec=col, fc=col, alpha=0.5)
+                    text = ax.text(j, i, self.terms[j], ha="center", va="center", color="w", bbox=box)
 
         ax.set_title('')
         # fig.tight_layout()
