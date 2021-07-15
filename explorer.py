@@ -128,7 +128,11 @@ class Rule:
 
 # Sequence of non-consecutive identical/repeated symbols
 R = Rule([lambda p: p[-1]!=p[-2]])
-R.sample(5).display()
+# R.sample(5).display()
+
+# Sequence of symbols that cannot occur more than twice in a span of 10 tokens
+R = Rule([lambda p: p[-28:-1].count(p[-1])<=2])
+R.sample(50, 5).print()
 
 
 # In[ ]:
