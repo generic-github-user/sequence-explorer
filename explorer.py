@@ -10,3 +10,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import string
 import random
+
+
+# In[46]:
+
+
+fig.clear()
+
+
+# In[51]:
+
+
+default_symbols = list(string.ascii_uppercase[:5])
+def lstr(x):
+    return ''.join(x)
