@@ -48,10 +48,10 @@ class Rule:
         self.symbols = symbols
     
     def sample(self, length=10):
-        seq = []
+        seq = Sequence()
         seq += random.choice(self.symbols)
         for i in range(length-1):
-            possible = list(filter(lambda s: all([c(lstr(seq)+s) for c in self.conditions]), self.symbols))
+            possible = list(filter(lambda s: all([c(str(seq)+s) for c in self.conditions]), self.symbols))
             seq += random.choice(possible)
         return seq
 
