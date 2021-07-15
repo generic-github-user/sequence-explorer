@@ -12,14 +12,17 @@ import string
 import random
 
 
-# In[60]:
+# In[69]:
 
 
 fig.clear()
+plt.close(fig)
 
 
-# In[64]:
+# In[83]:
 
+
+plt.close('all')
 
 default_symbols = list(string.ascii_uppercase[:5])
 def lstr(x):
@@ -33,11 +36,13 @@ class Sequence:
         self.rule = rule
     
     def display(self):
-        vals = np.expand_dims([R.symbols.index(c) for c in self], 0)
-        im = ax.imshow(vals, cmap='inferno')
+        vals = np.expand_dims([self.rule.symbols.index(c) for c in self], 0)
+        fig, ax = plt.subplots()
+        im = ax.imshow(vals, cmap='cool')
 
-        indices = list(range(1, 11))
-        ax.set_xticks(np.arange(len(indices)))
+        num_terms = len(self)
+        indices = list(range(1, num_terms+1))
+        ax.set_xticks(np.arange(num_terms))
         # ax.set_yticks(np.arange(len()))
         ax.set_xticklabels(indices)
         # ax.set_yticklabels()
@@ -46,7 +51,7 @@ class Sequence:
                  rotation_mode="anchor")
 
         for i in range(len([0])):
-            for j in range(len(farmers)):
+            for j in range(num_terms):
                 text = ax.text(j, i, vals[i, j], ha="center", va="center", color="w")
 
         ax.set_title('')
@@ -66,26 +71,25 @@ class Sequence:
     def __getitem__(self, i):
         return self.terms[i]
     
+    def __len__(self):
+        return len(self.terms)
+    
 class Rule:
     def __init__(self, conditions=[], symbols=default_symbols):
         self.conditions = conditions
         self.symbols = symbols
     
     def sample(self, length=10):
-        seq = Sequence()
+        seq = Sequence(rule=self)
         seq += random.choice(self.symbols)
         for i in range(length-1):
             possible = list(filter(lambda s: all([c(str(seq)+s) for c in self.conditions]), self.symbols))
             seq += random.choice(possible)
         return seq
 
-
-R = Rule(
-    [lambda p: p[-1]!=p[-2]]
-)
-fig, ax = plt.subplots()
-test = R.sample()
-test.display()
+# Sequence of non-consecutive identical/repeated symbols
+R = Rule([lambda p: p[-1]!=p[-2]])
+R.sample(15).display()
 
 
 # In[ ]:
