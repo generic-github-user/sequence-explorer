@@ -89,6 +89,13 @@ class SequenceSet:
     
     def print(self):
         print(self)
+        
+    def __str__(self):
+        return '\n'.join(map(str, self.members))
+    
+    def __iadd__(self, a):
+        self.members.append(a)
+        return self
     
 class Rule:
     def __init__(self, conditions=[], symbols=default_symbols):
