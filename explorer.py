@@ -19,7 +19,7 @@ fig.clear()
 plt.close(fig)
 
 
-# In[83]:
+# In[102]:
 
 
 plt.close('all')
@@ -43,6 +43,7 @@ class Sequence:
         num_terms = len(self)
         indices = list(range(1, num_terms+1))
         ax.set_xticks(np.arange(num_terms))
+#         ax.set_xticks([])
         # ax.set_yticks(np.arange(len()))
         ax.set_xticklabels(indices)
         # ax.set_yticklabels()
@@ -50,12 +51,17 @@ class Sequence:
         plt.setp(ax.get_xticklabels(), rotation=0, ha="right",
                  rotation_mode="anchor")
 
+        col = 'black'
         for i in range(len([0])):
             for j in range(num_terms):
-                text = ax.text(j, i, vals[i, j], ha="center", va="center", color="w")
+                box = dict(boxstyle="round", ec=col, fc=col, alpha=0.5)
+                text = ax.text(j, i, self.terms[j], ha="center", va="center", color="w", bbox=box)
 
         ax.set_title('')
         # fig.tight_layout()
+#         plt.axis('off')
+        plt.gca().axes.get_yaxis().set_visible(False)
+        ax.set_frame_on(False)
         plt.show()
     
     def __iadd__(self, a):
@@ -89,7 +95,7 @@ class Rule:
 
 # Sequence of non-consecutive identical/repeated symbols
 R = Rule([lambda p: p[-1]!=p[-2]])
-R.sample(15).display()
+R.sample(5).display()
 
 
 # In[ ]:
