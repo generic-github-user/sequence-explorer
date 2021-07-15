@@ -29,3 +29,11 @@ class Rule:
     def __init__(self, conditions=[], symbols=default_symbols):
         self.conditions = conditions
         self.symbols = symbols
+    
+    def sample(self, length=10):
+        seq = []
+        seq += random.choice(self.symbols)
+        for i in range(length-1):
+            possible = list(filter(lambda s: all([c(lstr(seq)+s) for c in self.conditions]), self.symbols))
+            seq += random.choice(possible)
+        return seq
