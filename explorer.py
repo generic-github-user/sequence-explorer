@@ -25,6 +25,16 @@ default_symbols = list(string.ascii_uppercase[:5])
 def lstr(x):
     return ''.join(x)
 
+class Sequence:
+    def __init__(self, terms=None, rule=None):
+        if not terms:
+            self.terms = []
+        self.terms = terms
+        self.rule = rule
+        
+    def __iadd__(self, a):
+        self.terms.append(a)
+
 class Rule:
     def __init__(self, conditions=[], symbols=default_symbols):
         self.conditions = conditions
