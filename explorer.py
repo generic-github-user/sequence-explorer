@@ -79,6 +79,16 @@ class Sequence:
     
     def __len__(self):
         return len(self.terms)
+
+class SequenceSet:
+    def __init__(self, members):
+        self.members = members
+    
+    def display(self):
+        self.members[0].display()
+    
+    def print(self):
+        print(self)
     
 class Rule:
     def __init__(self, conditions=[], symbols=default_symbols):
