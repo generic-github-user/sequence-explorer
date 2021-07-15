@@ -18,7 +18,7 @@ import random
 fig.clear()
 
 
-# In[61]:
+# In[64]:
 
 
 default_symbols = list(string.ascii_uppercase[:5])
@@ -31,7 +31,28 @@ class Sequence:
             terms = []
         self.terms = terms
         self.rule = rule
-        
+    
+    def display(self):
+        vals = np.expand_dims([R.symbols.index(c) for c in self], 0)
+        im = ax.imshow(vals, cmap='inferno')
+
+        indices = list(range(1, 11))
+        ax.set_xticks(np.arange(len(indices)))
+        # ax.set_yticks(np.arange(len()))
+        ax.set_xticklabels(indices)
+        # ax.set_yticklabels()
+
+        plt.setp(ax.get_xticklabels(), rotation=0, ha="right",
+                 rotation_mode="anchor")
+
+        for i in range(len([0])):
+            for j in range(len(farmers)):
+                text = ax.text(j, i, vals[i, j], ha="center", va="center", color="w")
+
+        ax.set_title('')
+        # fig.tight_layout()
+        plt.show()
+    
     def __iadd__(self, a):
         self.terms.append(a)
         return self
@@ -41,6 +62,9 @@ class Sequence:
 
     def __iter__(self):
         return iter(self.terms)
+    
+    def __getitem__(self, i):
+        return self.terms[i]
     
 class Rule:
     def __init__(self, conditions=[], symbols=default_symbols):
@@ -55,30 +79,13 @@ class Rule:
             seq += random.choice(possible)
         return seq
 
-fig, ax = plt.subplots()
+
 R = Rule(
     [lambda p: p[-1]!=p[-2]]
 )
+fig, ax = plt.subplots()
 test = R.sample()
-test = np.expand_dims([R.symbols.index(c) for c in test], 0)
-im = ax.imshow(test, cmap='inferno')
-
-indices = list(range(1, 11))
-ax.set_xticks(np.arange(len(indices)))
-# ax.set_yticks(np.arange(len()))
-ax.set_xticklabels(indices)
-# ax.set_yticklabels()
-
-plt.setp(ax.get_xticklabels(), rotation=0, ha="right",
-         rotation_mode="anchor")
-
-for i in range(len([0])):
-    for j in range(len(farmers)):
-        text = ax.text(j, i, test[i, j], ha="center", va="center", color="w")
-
-ax.set_title('')
-# fig.tight_layout()
-plt.show()
+test.display()
 
 
 # In[ ]:
